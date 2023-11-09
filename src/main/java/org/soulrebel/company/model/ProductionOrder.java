@@ -41,16 +41,15 @@ public class ProductionOrder {
 
     public ProductionOrder accept(LocalDate expectedCompletionDate) {
         if (state != ProductionOrderState.SUBMITTED) {
-            throw new IllegalStateException ("Cannot accept production order in state " + state);
+            throw new IllegalStateException("Cannot accept production order in state " + state);
         }
-        Objects.requireNonNull (expectedCompletionDate, "expectedCompletionDate is required to submit" +
-                " a production order");
-        if (expectedCompletionDate.isBefore (LocalDate.now ())) {
-            throw new IllegalArgumentException ("Expected completion date must be in the future, but was "
-                    + expectedCompletionDate);
+        Objects.requireNonNull(expectedCompletionDate, "expectedCompletionDate is required to submit a production order");
+        if (expectedCompletionDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Expected completion date must be in the future, but was " + expectedCompletionDate);
         }
         state = ProductionOrderState.ACCEPTED;
         this.expectedCompletionDate = expectedCompletionDate;
         return this;
     }
+
 }

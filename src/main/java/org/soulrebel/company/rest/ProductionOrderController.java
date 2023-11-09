@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
@@ -24,24 +27,24 @@ public class ProductionOrderController extends AbstractProductionOrderController
 
     private final ProductionOrders productionOrders;
 
-    @Override
-    ResponseEntity<?> rename(Long id, RenameRequest request) {
+    @PostMapping(value = "/{id}/rename")
+    public ResponseEntity<?> rename(@PathVariable Long id, @RequestBody RenameRequest request) {
         return productionOrders.findById (id)
                 .map (productionOrder -> productionOrders.save (productionOrder.renameTo (request.newName ())))
                 .map (productionOrder -> ResponseEntity.ok ().body (EntityModel.of (productionOrder)))
                 .orElse (ResponseEntity.notFound ().build ());
     }
 
-    @Override
-    ResponseEntity<?> submit(Long id) {
+    @PostMapping(value = "/{id}/submit")
+    public ResponseEntity<?> submit(@PathVariable Long id) {
         return productionOrders.findById (id)
                 .map (productionOrder -> productionOrders.save (productionOrder.submit ()))
                 .map (productionOrder -> ResponseEntity.ok ().body (EntityModel.of (productionOrder)))
                 .orElse (ResponseEntity.notFound ().build ());
     }
 
-    @Override
-    ResponseEntity<?> accept(Long id, CompleteRequest request) {
+    @PostMapping(value = "/{id}/accept")
+    public ResponseEntity<?> accept(@PathVariable Long id, @RequestBody CompleteRequest request) {
         return productionOrders.findById (id)
                 .map (productionOrder -> productionOrders
                         .save (productionOrder.accept (request.expectedCompletionDate ())))

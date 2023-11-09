@@ -1,0 +1,11 @@
+<ul>
+  <li *ngFor="let order of productionOrders" class="order-item">
+    {{ order.name }} <span *ngIf="order.expectedCompletionDate">
+      Expected for {{ order.expectedCompletionDate | date }}</span> ({{ order.state }})
+    <div class="buttons">
+      <button *ngIf="can('rename', order)" (click)="do('rename', order)">Rename</button>
+      <button *ngIf="can('submit', order)" (click)="do('submit', order)">Submit</button>
+      <button *ngIf="can('accept', order)" (click)="do('accept', order)">Accept</button>
+    </div>
+  </li>
+</ul>

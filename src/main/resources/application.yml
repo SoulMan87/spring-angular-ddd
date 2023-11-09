@@ -1,0 +1,7 @@
+spring:
+  data:
+    rest:
+      basePath: /api
+  mvc:
+    path-match:
+      matching-strategy: ant-path-matcher
